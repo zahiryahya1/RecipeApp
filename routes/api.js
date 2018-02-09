@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 var User = require('../models/user');
+var Ingredients = require('../models/ingredients');
+
 var db_info = require('../db-info');
 
 
@@ -78,6 +80,24 @@ router.post('/register', function(req, res) {
             }
         });
     }
+});
+
+router.get('/ingredients', function(req, res) {
+	Ingredients.getIngredients(function(data, errFlag) {
+		if (errFlag) {
+			result = {
+				error: true,
+				msg: data,
+			};
+			res.send(result);
+		}
+		result = {
+			error: false,
+			ingredients: data
+		};
+		
+		res.send(data);
+	});
 });
 
 
